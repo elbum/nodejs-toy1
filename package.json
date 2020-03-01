@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/web-n/Nodejs#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "sanitize-html": "^1.18.2"
   }
 }

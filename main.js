@@ -1,6 +1,9 @@
-var http;
+console.log('starting');//<--------------------------------------- added line
+
+var http = require('http');
 var fs = require('fs');
 var url = require('url');
+var CORS = require('cors')();
 
 function templateHTML(title, list, body) {
   return (
@@ -12,12 +15,14 @@ function templateHTML(title, list, body) {
   <meta charset="utf-8">
 </head>
 <body>
-  <h1><a href="/">WEB</a></h1>
+  <h1><a href="/">WEB112</a></h1>
   ${list}
+  <a href="/create">create</a>
   ${body}
 </body>
 </html>
   `);
+
 }
 
 function templateList(filelist) {
@@ -34,13 +39,14 @@ function templateList(filelist) {
   return list;
 }
 
-var app = require('http').createServer(function (request, response) {
+var app = http.createServer(function (request, response) {
   var _url = request.url;
   var queryData = url.parse(_url, true).query;
   var pathname = url.parse(_url, true).pathname;
   var title = queryData.id;
   // console.log(queryData);
   // console.log(url);
+  console.log('hi');
   console.log(url.parse(_url, true).pathname);
 
   // if (_url == '/') {
@@ -51,7 +57,7 @@ var app = require('http').createServer(function (request, response) {
   //   return response.writeHead(404);
   // }
   // response.writeHead(200);
-
+  console.log('pathname =', pathname);
 
   if (pathname === '/') {
     if (queryData.id === undefined) {
@@ -68,6 +74,8 @@ var app = require('http').createServer(function (request, response) {
       });
 
 
+    } else if (pathname === '/create') {
+      console.log('create!')
     } else {
       console.log('else')
       fs.readdir('./data/', function (err, data) {
@@ -89,6 +97,6 @@ var app = require('http').createServer(function (request, response) {
       })
     }
   }
-})
-
+});
+// app.use(CORS);
 app.listen(3000);
